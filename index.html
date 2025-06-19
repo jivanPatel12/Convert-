@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Free Online File Converter – Convert PDF, DOC, MP4, MP3, JPG and more</title>
+    <meta name="description" content="Convert your files online for free with our beautiful and modern tool. We support 1000+ file formats including PDF, DOCX, MP4, MP3, JPG, and more. Fast, secure, and easy to use.">
+    <meta name="keywords" content="file converter, online converter, convert pdf, convert mp4, convert mp3, video converter, image converter, audio converter">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Enhanced CSS -->
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-color: #f72585;
+            --bg-color: #f0f2f5;
+            --card-bg-color: #ffffff;
+            --text-color: #555;
+            --heading-color: #1e2a53;
+            --shadow-color: rgba(102, 126, 234, 0.15);
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animated-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* --- Header / Navbar --- */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--heading-color) !important;
+        }
+        .navbar-brand i { color: #667eea; }
+
+        /* --- Main Converter Section --- */
+        #converter-section {
+            padding: 100px 0;
+            background-color: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Background Blobs for Visual Appeal */
+        #converter-section::before {
+            content: '';
+            position: absolute;
+            top: -10%; right: -15%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #a8b5f5, #b9a3d4);
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.6;
+        }
+         #converter-section::after {
+            content: '';
+            position: absolute;
+            bottom: -15%; left: -15%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #f72585, #b5179e);
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .converter-wrapper {
+            max-width: 750px;
+            margin: auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Gradient Heading */
+        .gradient-heading {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            font-weight: 700;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .converter-box {
+            border: none;
+            border-radius: 20px;
+            padding: 50px 30px;
+            background-color: var(--card-bg-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px var(--shadow-color);
+        }
+
+        .converter-box.drag-over {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px var(--shadow-color);
+        }
+        
+        .converter-box .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        .file-input { display: none; }
+
+        .btn-primary {
+            background-image: var(--primary-gradient);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            background-size: 200% auto;
+        }
+        .btn-primary:hover {
+            background-position: right center; /* change the direction of the change here */
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.4);
+        }
+        
+        /* --- Conversion Steps UI --- */
+        .step-ui { display: none; }
+        #step-1-upload { display: block; }
+
+        /* Glassmorphism File Card */
+        .file-info-card {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+        .file-info-card .file-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-right: 20px;
+        }
+        
+        .download-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px var(--shadow-color);
+        }
+        .download-card .icon {
+            font-size: 4rem;
+            color: #20c997; /* A nice green */
+        }
+        .btn-success { border-radius: 50px; padding: 12px 30px; }
+
+        /* --- Sections Styling --- */
+        .section {
+            padding: 80px 0;
+            display: none;
+        }
+        #home { display: block; }
+        .section-heading { color: var(--heading-color); font-weight: 700; }
+        
+        .supported-formats-list .format-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
+        }
+        .supported-formats-list .format-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            color: #667eea;
+        }
+        .supported-formats-list a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+        }
+        
+        .pricing-card {
+            border: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px var(--shadow-color);
+        }
+        .pricing-card .card-header {
+            background-image: var(--primary-gradient);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom: none;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1e2a53;
+            color: rgba(255,255,255,0.7);
+        }
+        footer a { color: rgba(255,255,255,0.7); }
+        footer a:hover { color: #fff; }
+        footer .text-uppercase { color: #fff; font-weight: 600; }
+        footer hr { background-color: var(--accent-color); height: 2px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" data-page="home">
+                <i class="fa-solid fa-arrows-rotate"></i> ConvertFlow
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="#" data-page="home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="pricing">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="faq">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="contact">Contact</a></li>
+                </ul>
+                <div class="d-flex">
+                    <a href="#" class="btn btn-link text-decoration-none me-2">Login</a>
+                    <a href="#" class="btn btn-primary">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page Content -->
+        <section id="home" class="section">
+            <div id="converter-section">
+                <div class="container">
+                    <div class="converter-wrapper">
+                        <!-- Step 1: Upload File -->
+                        <div id="step-1-upload" class="step-ui">
+                             <h1 class="display-4 mb-3 gradient-heading">Online File Converter</h1>
+                             <p class="lead text-muted mb-5 animated-fade-in-up" style="animation-delay: 0.2s;">Convert your videos, audio, images, and documents with a single click.</p>
+                            <div id="drag-drop-area" class="converter-box animated-fade-in-up" style="animation-delay: 0.4s;">
+                                <input type="file" id="file-input" class="file-input" multiple>
+                                <div class="icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                <h3 class="fw-normal text-muted">Drag & Drop files here</h3>
+                                <p class="text-muted my-3">or</p>
+                                <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('file-input').click();">
+                                    <i class="fa-solid fa-file-arrow-up me-2"></i>Choose File
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Choose Format & Convert -->
+                        <div id="step-2-convert" class="step-ui">
+                            <h2 class="fw-bold mb-4 section-heading">Ready to Convert</h2>
+                            <div class="file-info-card mb-4">
+                                <div class="file-icon"><i class="fa-solid fa-file-lines"></i></div>
+                                <div class="file-details">
+                                    <p id="file-name" class="fw-bold text-dark mb-0">your-document.pdf</p>
+                                    <small id="file-size" class="text-muted">1.2 MB</small>
+                                </div>
+                            </div>
+                            <div class="row g-3 align-items-center justify-content-center">
+                                <div class="col-auto"><label class="col-form-label fs-5">Convert to:</label></div>
+                                <div class="col-auto">
+                                    <select class="form-select form-select-lg" id="output-format">
+                                        <optgroup label="Image"><option value="jpg">JPG</option><option value="png">PNG</option></optgroup>
+                                        <optgroup label="Document"><option value="pdf">PDF</option><option value="docx">DOCX</option></optgroup>
+                                        <optgroup label="Audio"><option value="mp3">MP3</option><option value="wav">WAV</option></optgroup>
+                                        <optgroup label="Video"><option value="mp4">MP4</option><option value="mov">MOV</option></optgroup>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button id="convert-btn" class="btn btn-primary btn-lg">Convert Now</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Progress Bar -->
+                        <div id="step-3-progress" class="step-ui">
+                            <h2 class="fw-bold mb-4 section-heading">Converting your file...</h2>
+                            <p class="text-muted">Magic is happening. Please wait a moment.</p>
+                            <div class="progress my-4" style="height: 10px; border-radius: 10px;">
+                                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%; background-image: var(--primary-gradient);"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 4: Download -->
+                        <div id="step-4-download" class="step-ui">
+                            <div class="download-card">
+                                <div class="icon mb-3"><i class="fa-solid fa-circle-check"></i></div>
+                                <h2 class="fw-bold section-heading">Conversion Successful!</h2>
+                                <p class="lead mb-4 text-muted">Your new file is ready for download.</p>
+                                <button class="btn btn-success btn-lg mb-3">
+                                    <i class="fa-solid fa-cloud-arrow-down me-2"></i>Download Now
+                                </button>
+                            </div>
+                            <button id="convert-another-btn" class="btn btn-link mt-4 text-decoration-none">Convert Another File</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Supported Formats Section -->
+            <div class="container py-5">
+                <div class="text-center mb-5">
+                    <h2 class="section-heading">Popular Conversions</h2>
+                    <p class="text-muted">We support thousands of conversions. Here are some favorites.</p>
+                </div>
+                <div class="supported-formats-list">
+                    <div class="row g-3">
+                        <div class="col-lg-3 col-md-4 col-6"><a href="#"><div class="format-card">PDF to DOCX</div></a></div>
+                        <div class="col-lg-3 col-md-4 col-6"><a href="#"><div class="format-card">DOCX to PDF</div></a></div>
+                        <div class="col-lg-3 col-md-4 col-6"><a href="#"><div class="format-card">MP4 to MP3</div></a></div>
+                        <div class="col-lg-3 col-md-4 col-6"><a href="#"><div class="format-card">PNG to JPG</div></a></div>
+                        <div class="col-lg-3 col-md-4 col-6"><a href="#"><div class="format-card">JPG to PDF</div></a></div>
+                        <div class="col-lg-3 col-md-4 col-6"><a href="#"><div class="format-card">MOV to MP4</div></a></div>
+                        <div class="col-lg-3 col-md-4 col-6"><a href="#"><div class="format-card">HEIC to JPG</div></a></div>
+                        <div class="col-lg-3 col-md-4 col-6"><a href="#"><div class="format-card">WAV to MP3</div></a></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Pages (Pricing, FAQ, Contact) remain largely the same, but will inherit the new styles -->
+        <!-- Pricing Page Content -->
+        <section id="pricing" class="section bg-white">
+            <div class="container">
+                <div class="text-center mb-5"><h2 class="section-heading">Our Pricing Plans</h2><p class="lead text-muted">Choose the plan that's right for you.</p></div>
+                <div class="row">
+                    <div class="col-lg-4 mb-4"><div class="card pricing-card h-100"><div class="card-body p-5 d-flex flex-column"><h3 class="card-title fw-bold">Free</h3><p class="card-subtitle text-muted mb-4">For casual use</p><p class="display-4 fw-bold mb-4">$0<span class="fs-4 text-muted">/mo</span></p><ul class="list-unstyled mb-4">...</ul><button class="btn btn-outline-primary mt-auto">Get Started</button></div></div></div>
+                    <div class="col-lg-4 mb-4"><div class="card pricing-card h-100 border-primary border-2"><div class="card-header text-white text-center fw-bold">Most Popular</div><div class="card-body p-5 d-flex flex-column"><h3 class="card-title fw-bold">Pro</h3><p class="card-subtitle text-muted mb-4">For power users</p><p class="display-4 fw-bold mb-4">$9<span class="fs-4 text-muted">/mo</span></p><ul class="list-unstyled mb-4">...</ul><button class="btn btn-primary mt-auto">Upgrade to Pro</button></div></div></div>
+                    <div class="col-lg-4 mb-4"><div class="card pricing-card h-100"><div class="card-body p-5 d-flex flex-column"><h3 class="card-title fw-bold">Business</h3><p class="card-subtitle text-muted mb-4">For teams & API</p><p class="display-4 fw-bold mb-4">$25<span class="fs-4 text-muted">/mo</span></p><ul class="list-unstyled mb-4">...</ul><button class="btn btn-outline-primary mt-auto">Contact Sales</button></div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Page Content -->
+        <section id="faq" class="section"><div class="container"><div class="text-center mb-5"><h2 class="section-heading">Frequently Asked Questions</h2></div><div class="accordion" id="faqAccordion">...</div></div></section>
+        
+        <!-- Contact Page Content -->
+        <section id="contact" class="section bg-white"><div class="container"><div class="text-center mb-5"><h2 class="section-heading">Get In Touch</h2></div><div class="row justify-content-center"><div class="col-lg-8"><form>...</form></div></div></div></section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="pt-5 pb-4"><div class="container text-center text-md-start">...</div><div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">© 2023 Copyright: <a class="text-white" href="#">ConvertFlow.com</a></div></footer>
+    
+    <!-- JS files remain the same -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        // All JavaScript logic from the previous example remains exactly the same.
+        // It controls the conversion flow simulation and page navigation.
+        document.addEventListener('DOMContentLoaded', function () {
+            const dragDropArea = document.getElementById('drag-drop-area');
+            const fileInput = document.getElementById('file-input');
+            const convertBtn = document.getElementById('convert-btn');
+            const convertAnotherBtn = document.getElementById('convert-another-btn');
+            const step1 = document.getElementById('step-1-upload');
+            const step2 = document.getElementById('step-2-convert');
+            const step3 = document.getElementById('step-3-progress');
+            const step4 = document.getElementById('step-4-download');
+            const fileNameEl = document.getElementById('file-name');
+            const fileSizeEl = document.getElementById('file-size');
+            const progressBar = document.getElementById('progress-bar');
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link, [data-page-link]');
+            const sections = document.querySelectorAll('.section');
+
+            function showPage(pageId) {
+                sections.forEach(section => { section.style.display = section.id === pageId ? 'block' : 'none'; });
+                navLinks.forEach(link => { link.classList.toggle('active', link.dataset.page === pageId); });
+                window.scrollTo(0, 0);
+            }
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.dataset.page || link.dataset.pageLink;
+                    if (pageId) showPage(pageId);
+                });
+            });
+
+            function handleDrag(e) { e.preventDefault(); dragDropArea.classList.add('drag-over'); }
+            function handleDragLeave() { dragDropArea.classList.remove('drag-over'); }
+            function handleDrop(e) {
+                e.preventDefault();
+                dragDropArea.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) handleFile(files[0]);
+            }
+            dragDropArea.addEventListener('dragover', handleDrag);
+            dragDropArea.addEventListener('dragleave', handleDragLeave);
+            dragDropArea.addEventListener('drop', handleDrop);
+            fileInput.addEventListener('change', () => { if (fileInput.files.length > 0) handleFile(fileInput.files[0]); });
+
+            function handleFile(file) {
+                fileNameEl.textContent = file.name;
+                fileSizeEl.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+                step1.style.display = 'none';
+                step2.style.display = 'block';
+            }
+
+            convertBtn.addEventListener('click', () => {
+                step2.style.display = 'none';
+                step3.style.display = 'block';
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.floor(Math.random() * 10) + 5;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            step3.style.display = 'none';
+                            step4.style.display = 'block';
+                        }, 500);
+                    }
+                    progressBar.style.width = `${progress}%`;
+                }, 200);
+            });
+            
+            convertAnotherBtn.addEventListener('click', () => {
+                step4.style.display = 'none';
+                step1.style.display = 'block';
+                progressBar.style.width = '0%';
+                fileInput.value = '';
+            });
+        });
+    </script>
+</body>
+</html>
